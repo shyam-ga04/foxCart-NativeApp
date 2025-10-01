@@ -11,15 +11,23 @@ import {
   SafeAreaProvider,
   useSafeAreaInsets,
 } from 'react-native-safe-area-context';
+import { PaperProvider } from 'react-native-paper';
+import useThemeStore from './store/useThemeStore';
+import { darkTheme, lightTheme } from './theme';
 
 function App() {
   const isDarkMode = useColorScheme() === 'dark';
+  const mode = useThemeStore(state => state.mode);
+
+  const themes = mode === 'light' ? lightTheme : darkTheme;
 
   return (
-    <SafeAreaProvider>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <AppContent />
-    </SafeAreaProvider>
+    <PaperProvider theme={themes}>
+      <SafeAreaProvider>
+        <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
+        <AppContent />
+      </SafeAreaProvider>
+    </PaperProvider>
   );
 }
 
